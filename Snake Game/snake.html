@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Snake</title>
+<link rel="stylesheet" href="./stylesheet/tss.css">
+</head>
+<body>
+<!-- Overall container -->
+<div class="tss-container">
+<!-- Scoreboard -->
+<div class="scoreboard-wrap">
+<!-- Score -->
+<div class="score">
+<i class="s-icon"></i>
+<!-- The <i> tag is often used to embed icon fonts. -->
+<span class="score-text">0</span>
+<!-- <span> tag: no specific semantics, only used to group inline content for applying styles or scripts. It is also an inline element. -->
+<span class = "level-text"> Level 0</span>
+<div class="congratulationsMessage" style="display: none;">Congratulations</div>
+
+</div>
+
+<!-- Game duration -->
+<div class="duration">
+<i class="t-icon"></i>
+<!-- Minutes -->
+<span class="min">00</span>
+<!-- Interval -->
+
+<span>:</span>
+
+<span class="sec">00</span>
+
+</div>
+
+</div>
+<!-- Activity area -->
+<<div class="tss-wrap">
+<!-- Greedy snake -->
+<div class="tss-head right" style="left: 80px;top: 40px;"></div>
+<!-- Greedy snake body -->
+<div class="tss-body" style="left: 60px;top: 40px;"></div>
+
+<!-- <left: 60px; top: 40px; is positioned at the top left corner of the element. -->
+
+<div class="tss-body" style="left: 60px;top: 40px;"></div>
+<div class="tss-body" style="left: 60px;top: 40px;"></div>
+<div class="tss-body" style="left: 60px;top: 40px;"></div>
+<div class="tss-body" style="left: 60px;top: 40px;"></div>
+</div>
+
+</div>
+
+</div>
+<script>
+// Snake's attribute data
+//var left = 0;
+// Create a function to be executed repeatedly
+//function move(){
+// left = left +20;
+// if(left === 200){ // === logical operation to determine equality, the result of the operation is a Boolean value
+// clearInterval(t)
+
+// }
+// console.log(left);
+// }
+
+//Execute twice per second and once in half a second
+
+//When the left value reaches 200, turn off the timer
+//var t = setInterval(move,500);
+
+//All the data of the snake are upgraded to obj format:
+
+//1. The last bit of the snake array is the snake head
+var tss_arr = [
+{left:0,top:0},
+{left:0,top:0},
+{left:0,top:0},
+{left:0,top:0},
+{left:0,top:0},
+{left:0,top:0}]
+;
+
+//Note that the last item of tss_arr represents the left of the snake head
+var tss_doms = document.querySelectorAll(".tss-wrap div");
+var tss_head_doms = document.querySelector(".tss-head");
+var tss_wrap_doms = document.querySelector(".tss-wrap");
+var score_doms = document.querySelector(".score-text");
+var sec_doms = document.querySelector(".sec");
+var min_doms = document.querySelector(".min");
+var level_doms = document.querySelector(".level-text")
+var con = document.querySelector('.congratulationsMessage')
+
+// This line of code selects all <div> elements in the .tss_wrap container and stores them in the tss_doms variable.
+// .tss_wrap is a container containing multiple <div> elements, each of which represents a part of the snake (including the head and body). Through the querySelectorAll method, all these <div> elements are selected and stored in the tss_doms variable for subsequent operations. -->
+
+// But note that the last item of tss_arr represents the left of the snake head, so tss_arr should be reversed
+
+// To avoid hidden dangers, clone a new array and then reverse it
+
+// var tss_reverse = tss_arr.slice().reverse();
+// console.log(tss_reverse);
+
+// Snake head left value
+// var left =0;
+// Upgrade snake head obj data
+var tss_head ={
+left:0,
+top:0
+}
+// Snake movement direction variable
+// Default initial value moves to the right
+var tss_turn = 39;
+
+// The key value of the object becomes the data of tss_turn
+var tss_control ={
+// Left left = -20
+37:{ // left
+left:-20,
+top:0,
+class: "left"
+
+},
+
+38:{ // top
+left:0,
+top:-20,
+class: "top"
+},
+
+39:{ // right
+left:20,
+top:0,
+class: "right"
+},
+
+40:{ // bottom
+left:0,
+top:20,
+class: "bottom"
+},
+
+}
+
+// 1. Snake bite tail logic
+// -Snake head
+// -Snake body;
+// Judgment logic: the position of the snake head and the snake body are completely overlapped
+//
+
+// Snake head position change
+// To complete the change of the snake head position according to the number taken out by the snake tss_control and tss_turn;
+
+// Snake movement function
+function snakemove(){
+
+eggDetection(tss_head) // Pass the snake head position to eggdetection
+// Left value increments
+//<!-- left = left +20; -->
+// According to tss_control and tss_turn uses the data to change the position of the snake head
+
+// tss_head.left += 20;
+tss_head.left += tss_control[tss_turn].left;
+tss_head.top += tss_control[tss_turn].top;
+
+// Change the direction of the snake head
+
+tss_head_doms.classList.remove("left","right","top","bottom");
+tss_head_doms.classList.add(tss_control[tss_turn].class)
+
+// Assign a value to the snake head, the subscript of the last item in the array, arr.length-1
+// Upgrade to obj
+tss_arr[tss_arr.length-1]= tss_head;
+
+// Reverse, or not, just put <div class="tss-wrap"> at the end
+var tss_reverse = tss_arr.slice().reverse();
+// tss_reverse:
+// Snake head tss_reverse[0]
+// Snake body tss_reverse.slice(1)
+// Compare the position of the snake head and each snake body. If they are exactly the same, stop the game
+// Collision detection:
+if(auto){
+autoPlay();
+}else{
+collisionDetection(tss_reverse)}
+
+// Upgrade, assign values ​​to both top and left
+
+for (var i= 0;i< tss_doms.length;i++){
+tss_doms[i].style.left = tss_reverse[i].left+"px";
+tss_doms[i].style.top = tss_reverse[i].top+"px";
+
+}
+
+// Upgrade, now the array items are objects, can not be directly assigned, to assign values ​​to left and top
+// Write a follow-up loop, move tss_arr[i] to tss_arr[i-1]
+for (var i = 0; i < tss_arr.length - 1; i++) {
+// The current array item is equal to the following array value!
+tss_arr[i].left = tss_arr[i + 1].left;
+tss_arr[i].top = tss_arr[i + 1].top;
+}
+
+// if(left === 200){
+// clearInterval(t);
+
+// }
+
+}
+
+start = 300
+var t = setInterval(snakemove,start);
+
+function collisionDetection(arr){
+// Snake head information
+var tss_head = arr[0];
+// Snake body
+var tss_body = arr.slice(1)
+// The slice(start, end) method is used to return a new array object, which is a shallow copy of the original array (from start to end, not including end). The original array will not be modified.
+
+for(var i =0; i < tss_body.length; i = i+1){
+if (tss_head.left === tss_body[i].left && tss_head.top === tss_body[i].top){
+// bite the body
+console.log("Game over")
+// terminate the timer and stop the movement
+
+clearInterval(t);
+clearInterval(tm);
+Gameover()
+
+}
+
+}
+
+// snake hits the wall, boundary detection logic
+// left minimum value 0 maximum value 800 top minimum value 0 maximum value 800
+
+if(tss_head.left <0 || tss_head.left >800 || tss_head.top<0 || tss_head.top > 600 ){
+console.log("Game Over")
+clearInterval(t);
+Gameover()
+
+}
+
+}
+// set the timer setInterval Placing the definition after the collision detection function ensures that the collision detection logic is correctly loaded and executed before the snake moves.
+
+// Control the movement direction of the snake through events;
+document.onkeydown = function(e){
+// document.onkeydown is an event attribute used to set the keyboard press event (keydown) processing function. This event is triggered when the user presses any key on the keyboard in the page
+// console.log(e.keyCode);
+// if(e.keyCode === 37){
+// console.log("Snake move toward left");
+// e.keyCode === 37 indicates that the user pressed the left arrow key. The description is based on the standard key code (keyCode) definition, which is indeed fixed.
+
+// }
+
+// 1. Current snake direction: tss_turn
+// 2. The direction the snake is about to change e.keycode
+
+// Logical judgment
+// If the current direction is left, terminate the program execution if it is going to the right
+if(tss_turn === 37 && e.keyCode === 39){
+return
+}
+
+if(tss_turn === 38 && e.keyCode === 40){
+return
+}
+
+if(tss_turn === 39 && e.keyCode === 37){
+return
+}
+
+if(tss_turn === 40 && e.keyCode === 38){
+return
+}
+
+if(e.keyCode >= 37 && e.keyCode<=40){
+tss_turn = e.keyCode;
+
+// Create a timer and let the move function
+
+// Modify the snake head style
+// dom+ class name modification tool
+// classlist This tool can facilitate us to delete and add class names of dom objects
+// tss_head_doms.classList.remove("left","right","top","bottom");
+
+// The purpose of executing tss_head_doms.classList.remove("left", "right", "top", "bottom"); is to clean up the existing direction class names on the tss-head element.
+
+// This step is very important because the snake head (tss-head) can switch between different directions (left, right, top, and bottom). If the existing direction class names are not cleared first, unnecessary style conflicts or unexpected behaviors may occur. Therefore, through the remove method, it is ensured that the possible old class names are cleared before adding new direction class names to the tss-head element.
+
+// tss_head_doms.classList.add(tss_control[tss_turn].class)
+
+// The classList.remove() method can clear the existing class names on the element to ensure that the element does not have multiple class names representing directions at the same time (such as left, right, top, bottom). Then, use the classList.add() method to add new class names
+
+}
+
+}
+
+// If the key code is between 37 and 40, the value of the tss_turn variable will be updated to the corresponding key code value.
+
+// Then, the timer setInterval(snakemove, 500); calls the snakemove function every 500 milliseconds. In the snakemove function, the corresponding direction data (the increment of left and top) is taken from the tss_control object according to the value of tss_turn, and the position of the snake head tss_head is updated.
+
+// Create snake eggs
+// 1. Create snake egg data structure
+// 2. Create DOM object
+var egg = {
+left: 0,
+top : 0,
+class : "tss-egg",
+dom : document.createElement("span")
+}
+
+function createEgg(){
+// Create random position for the egg
+egg.left = parseInt(Math.random() * 40) * 20;
+egg.top = parseInt(Math.random() * 30) * 20;
+
+// Apply styles to the egg DOM element
+egg.dom.style.left = egg.left + "px";
+egg.dom.style.top = egg.top + "px";
+
+// Add the 'tss-egg' class to the egg DOM element
+egg.dom.classList.add(egg.class);
+
+// Append the egg DOM element to the container
+
+tss_wrap_doms.appendChild(egg.dom);
+// When you use appendChild() to add a child node to a parent node, the child node will become part of the parent node
+//append is to put the original dom in another location, there is only one object
+}
+
+createEgg()
+
+// Egg eating detection
+
+function eggDetection(head){
+// If the snake head and the snake egg overlap, eat the egg now
+if(head.left === egg.left && head.top === egg.top){
+console.log("eat")
+// 1. Eat eggs
+// 2. The tail becomes longer
+eatEgg();
+recordscore()
+
+}
+// Rearrange eggs
+function eatEgg(){createEgg();
+    createBody();
+    
+    }
+    
+    function createBody(){
+    // 1. Create the snake body DOM structure
+    // 2. Put the data into the tss_arr array
+    var body = document.createElement("div");
+    body.classList.add("tss-body");
+    
+    body.style.display = "none";
+    setTimeout(function(){
+    body.style.display = "block";
+    },100)
+    
+    // When creating the DOM element of the snake body, make it invisible first, and then show it after a short delay
+    
+    tss_wrap_doms.appendChild(body);
+    
+    // Create DOM elements: Use the document.createElement() method to create a new HTML element, such as <div>, <span>, <p>, etc. This method returns a new element node object.
+    // Set element attributes and content: After creating an element, you can configure the appearance and behavior of the element by setting its attributes (such as classList, textContent, innerHTML, etc.).
+    // Add to the page: Use appendChild() or similar methods to add the newly created element to the specified position in the document, making it visible and accessible on the page.
+    // Update the newly added structure
+    
+    // Update the newly added DOM structure and put it in tss_doms
+    tss_doms = document.querySelectorAll(".tss-wrap div");
+    // tss_doms is a variable used to store all <div> elements with the class name "tss-wrap" in the page. After creating a new snake body, you may need to re-obtain these elements so that they can be updated or managed in subsequent operations. DOM query operations (such as document.querySelectorAll()) are not real-time bindings, so you need to re-query when necessary to ensure that you get the latest list of elements.
+    
+    // Put the newly added snake body into tss_arr
+    tss_arr.unshift({
+    left: tss_arr[0].left,
+    top: tss_arr[0].top
+    });
+    
+    // tss_arr.unshift({ left: 0, top: 0 }) means adding a new object to the beginning of the tss_arr array, which contains the initial left and top values
+    
+    }
+    }
+    // Record score
+    var score = 0;
+    function recordscore(){
+    // 1. Let the score increase automatically;
+    score ++;
+    // 2. Modify dom content
+    score_doms.innerHTML = score;
+    // innerHTML is a property of the DOM element, used to set or get the HTML content within the element. Here, it is set to the current value of score, so each time the score increases, the display is updated
+    nextlevel()
+    }
+    
+    var s =0;
+    
+    // Timer function
+    function timeMeter(){
+    s++;
+    // Split time
+    // 1. Split minutes
+    var min = parseInt(s/60)
+    // The parseInt function is used to parse a string or number into an integer. It will truncate the decimal part and only keep the integer part
+    // 2. Remaining seconds
+    if (min<10){
+    min = "0" + min;
+    }
+    
+    var sec = s % 60;
+    
+    if (sec<10){
+    sec = "0" + sec;
+    }
+    
+    sec_doms.innerHTML = sec;
+    min_doms.innerHTML = min;
+    
+    }
+    var tm = setInterval(timeMeter,1000)
+    // 1000ms movement
+    
+    function Gameover(){
+    clearInterval(t);
+    clearInterval(tm);
+    
+    }
+    
+    // Automatic game:
+    // Whether to turn on the automatic game function
+    var auto = false;
+    function autoPlay(){
+    // 1. Accelerate the game
+    clearInterval(t);
+    t = setInterval(snakemove,100);
+    
+    // Determine the position relationship between the snake head and the snake egg
+    if (tss_head.left !== egg.left && tss_head.left > egg.left){
+    tss_turn = 37;
+    }
+    
+    if (tss_head.left !== egg.left && tss_head.left < egg.left){
+    tss_turn = 39;
+    }
+    
+    if (tss_head.top !== egg.top && tss_head.top > egg.top){
+    tss_turn = 38;
+    }
+    
+    if (tss_head.top !== egg.top && tss_head.top < egg.top){
+    tss_turn = 40;
+    }
+    
+    }
+    
+    var level = 0;
+    
+    function nextlevel(){
+    
+    if (score % 3===0){
+    level = level+1;
+    start = start - 50;
+    if (start === 0){
+    console.log("Congratulations");
+    
+    level_doms.innerHTML ="Congratulations"
+    
+    clearInterval(t);
+    clearInterval(tm);
+    
+    }else{
+    
+    level_doms.innerHTML ="Level" + level
+    setInterval(snakemove,start)
+    
+    }
+    
+    }
+    
+    }
+    
+    </script>
+    
+    </body>
+    </html>

@@ -1,0 +1,149 @@
+/* 贪食蛇样式 */
+/* 样式清零 */
+*{
+    margin: 0;
+    padding:0;
+}
+.tss-container{
+    width: 800px;
+    height: 600px;
+    background-color: #000;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    border: 4px dashed #ddd;
+    border-top: none;
+}
+.scoreboard-wrap{
+    width: 100%;
+    height: 40px;
+    background-color: #000;
+    position: absolute;
+    top: -46px;
+    border: 4px dashed #ddd;
+    border-bottom: 2px solid #ddd;
+    left: -4px;
+    overflow: hidden;
+}
+.s-icon,.t-icon{
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    margin-top: 5px;
+    margin-left: 5px;
+    background-size: cover;
+}
+.s-icon{
+    background-image: url("../icon/snake.jpg");
+}
+.t-icon{
+    background-image: url("../icon/time.jpg");
+    top: 3px;
+    position: relative;
+}
+
+
+
+
+.score-text{
+    display: inline-block;
+    color: #fff;
+    font-size: 20px;
+    position:absolute;
+    font-family: fantasy;
+    top: 3px;
+
+}
+
+
+
+.level-text{
+    display: inline-block;
+    color: #fff;
+    font-size: 20px;
+    position:absolute;
+    font-family: fantasy;
+    top: 3px;
+    top: 50%; /* 相对于父容器垂直居中 */
+    left: 50%; /* 相对于父容器水平居中 */
+
+}
+
+
+
+.duration{
+    position: absolute;
+    right: 20px;
+    top: 0;
+    font-family: fantasy;
+    color: #fff;
+    font-size: 20px;
+}
+.tss-wrap{
+    width: 800px;
+    height: 600px;
+    overflow: hidden;
+    position: relative;
+}
+.tss-head{
+    width: 20px;
+    height: 20px;
+    background-color:crimson;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+.tss-head.right{
+    border-radius: 0 10px 10px 0;
+    /* border-radius: 0 10px 10px 0; 定义了右边两个角（右上角和右下角）的圆角，使得蛇头在向右移动时有一个圆润的边缘。 */
+    /* 这些 CSS 规则决定了蛇头在不同朝向上的外观：向右时右边缘圆角，向下时下边缘圆角，向上时上边缘圆角，向左时左边缘圆角。 */
+}
+.tss-head.bottom{
+    border-radius: 0 0 10px 10px;
+}
+.tss-head.top{
+    border-radius:  10px 10px 0  0;
+}
+.tss-head.left{
+    border-radius:  10px 0  0 10px ;
+}
+
+.tss-body{ 
+    width: 20px;
+    /* 每一格20px */
+    height: 20px;
+    background-color: #fff;
+    position: absolute;
+    box-sizing: border-box;
+    border: 5px dashed #ddd;
+    border-radius: 2px;
+    /* 一节身体 */
+}   
+
+.tss-egg {
+    width: 20px;
+    height: 20px;
+    background-color: blue;
+   
+    position: absolute; /* Ensures positioning relative to the nearest positioned ancestor */
+}
+
+
+.congratulationsMessage {
+    display: none; /* 初始隐藏 */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #00bfff;
+    color: #a74522ba;
+    padding: 20px;
+    font-size: 48px;
+    font-family: Arial, sans-serif;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000; /* 确保在最顶层显示 */
+}
